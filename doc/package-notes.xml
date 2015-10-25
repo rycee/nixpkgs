@@ -258,38 +258,101 @@ $ nix-env -f '&lt;nixpkgs&gt;' -qaP -A eclipses --description
     type of environment is created using the function
     <varname>eclipseWithPlugins</varname> found inside the
     <varname>nixpkgs.eclipses</varname> attribute set. This function
-    takes as argument <literal>{ eclipse, plugins ? [], jvmArgs ? []
-    }</literal> where <varname>eclipse</varname> is a one of the
-    Eclipse packages described above, <varname>plugins</varname> is a
-    list of plugin derivations, and <varname>jvmArgs</varname> is a
-    list of arguments given to the JVM running the Eclipse. For
-    example, say you wish to install the latest Eclipse Platform with
-    the popular Eclipse Color Theme plugin and also allow Eclipse to
-    use more RAM. You could then add
+    takes as argument a set having the attributes
+    <variablelist>
+      <varlistentry>
+        <term><literal>eclipse</literal></term>
+        <listitem>
+          <para>
+            The underlying Eclipse package as described above.
+            Mandatory.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><literal>executable</literal></term>
+        <listitem>
+          <para>
+            Name of the executable. Defaults to
+            <filename>eclipse</filename>.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><literal>configArea</literal></term>
+        <listitem>
+          <para>
+            Name of the directory inside
+            <filename>~/.eclipse</filename> that this Eclipse should
+            use for configurations and plugins. Defaults to a name
+            generated from the product ID and product version, for
+            example <filename>org.eclipse.platform_4.5.0</filename>.
+          </para>
+          <para>
+            Note, the default value of this attribute will mean that
+            any version upgrade of the underlying Eclipse package will
+            cause it to use a different configuration directory. This
+            is good if you wish to retain the possibility of reverting
+            to the previous Eclipse version. On the other hand this
+            may be inconvenient and you might wish to set this value
+            to let Eclipse keep using the same configuration directory
+            across versions.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><literal>plugins</literal></term>
+        <listitem>
+          <para>
+            A list of plugin derivation that should be active in this
+            Eclipse environment. Defaults to the empty list, that is,
+            an environment without any additional plugins.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><literal>jvmArgs</literal></term>
+        <listitem>
+          <para>
+            A list of additional arguments to give to the JVM running
+            Eclipse. Defaults to the empty list.
+          </para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    For example, say we wish to install the latest Eclipse Platform
+    with the popular Eclipse Color Theme plugin and also allow Eclipse
+    to use more memory. Further we wish to indicate a configuration
+    area to maintain our configuration across any version updates of
+    the Eclipse Platform. We could then add
 
 <screen>
 packageOverrides = pkgs: {
   myEclipse = with pkgs.eclipses; eclipseWithPlugins {
     eclipse = eclipse-platform;
+    configArea = "my-eclipse";
     jvmArgs = [ "-Xmx2048m" ];
     plugins = [ plugins.color-theme ];
   };
 }
 </screen>
 
-    to your Nixpkgs configuration
+    to the Nixpkgs configuration
     (<filename>~/.nixpkgs/config.nix</filename>) and install it by
     running <command>nix-env -f '&lt;nixpkgs&gt;' -iA
-    myEclipse</command> and afterward run Eclipse as usual. It is
-    possible to find out which plugins are available for installation
-    using <varname>eclipseWithPlugins</varname> by running
+    myEclipse</command> and afterward run Eclipse as usual.
+  </para>
+
+  <para>
+    It is possible to find out which plugins are available for
+    installation using <varname>eclipseWithPlugins</varname> by
+    running
 
 <screen>
 $ nix-env -f '&lt;nixpkgs&gt;' -qaP -A eclipses.plugins --description
 </screen>
-  </para>
 
-  <para>
     If there is a need to install plugins that are not available in
     Nixpkgs then it may be possible to define these plugins outside
     Nixpkgs using the <varname>buildEclipseUpdateSite</varname> and
@@ -316,6 +379,7 @@ $ nix-env -f '&lt;nixpkgs&gt;' -qaP -A eclipses.plugins --description
 packageOverrides = pkgs: {
   myEclipse = with pkgs.eclipses; eclipseWithPlugins {
     eclipse = eclipse-platform;
+    configArea = "my-eclipse";
     jvmArgs = [ "-Xmx2048m" ];
     plugins = [
       plugins.color-theme

@@ -328,7 +328,12 @@ rec {
     };
   };
 
-  eclipseWithPlugins = { eclipse, plugins ? [], jvmArgs ? [] }:
+  eclipseWithPlugins =
+    { eclipse
+    , executable ? "eclipse"
+    , plugins ? []
+    , jvmArgs ? []
+    }:
     let
       # Gather up the desired plugins.
       pluginEnv = buildEnv {
