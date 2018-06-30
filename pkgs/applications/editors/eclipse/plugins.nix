@@ -314,6 +314,25 @@ rec {
     };
   };
 
+  cucumber = buildEclipseUpdateSite rec {
+    name = "cucumber-${version}";
+    version = "0.0.22";
+
+    src = fetchzip {
+      stripRoot = false;
+      url = "https://github.com/cucumber/cucumber-eclipse/raw/master/cucumber.eclipse.download/download/${version}-SNAPSHOT/cucumber-eclipse-plugin-${version}-SNAPSHOT.zip";
+      sha256 = "0n8g8j0680i9jgg2xgc1ankcv1g9z4x94h4jlcnb2kqfmm91sr2z";
+    };
+
+    meta = with stdenv.lib; {
+      homepage = https://cucumber.github.io/cucumber-eclipse/;
+      description = "An Eclipse plugin for Cucumber";
+      license = licenses.mit;
+      platforms = platforms.all;
+      maintaners = [ maintainers.rycee ];
+    };
+  };
+
   cup = buildEclipsePlugin rec {
     name = "cup-${version}";
     version = "1.1.0.201604221613";
