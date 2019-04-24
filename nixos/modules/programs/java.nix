@@ -6,7 +6,27 @@
 with lib;
 
 let
+
   cfg = config.programs.java;
+
+  trustStore =
+    pkgs.runCommand
+      "java-cacerts"
+      {
+        nativeBuildInputs = [ pkgs.perl ];
+        preferLocalBuild = true;
+        allowSubstitutes = false;
+      }
+      ''
+        mkdir -p $out
+        cd $out
+        perl \
+          ${../../../pkgs/development/compilers/openjdk/generate-cacerts.pl} \
+          ${cfg.package}/lib/openjdk/jre/bin/keytool \
+          ${config.environment.etc."ssl/certs/ca-certificates.crt".source}
+        ls
+      '';
+
 in
 
 {
@@ -52,6 +72,9 @@ in
     environment.shellInit = ''
       test -e ${cfg.package}/nix-support/setup-hook && source ${cfg.package}/nix-support/setup-hook
     '';
+
+    environment.etc."ssl/certs/java/cacerts".source = "${trustStore}/cacerts";
+    environment.sessionVariables.JAVAX_NET_SSL_TRUSTSTORE = "${trustStore}/cacerts";
 
   };
 
