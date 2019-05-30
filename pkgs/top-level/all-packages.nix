@@ -15892,6 +15892,8 @@ in
 
   nafees = callPackage ../data/fonts/nafees { };
 
+  national-park-typeface = callPackage ../data/fonts/national-park { };
+
   nordic = callPackage ../data/themes/nordic { };
 
   nordic-polar = callPackage ../data/themes/nordic-polar { };
