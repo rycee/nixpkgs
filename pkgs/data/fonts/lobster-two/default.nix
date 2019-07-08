@@ -58,16 +58,18 @@ in
     installPhase = ''
       mkdir -p $out/share/fonts/opentype
       mkdir -p $out/share/doc/${name}
+      mkdir -p $out/etc/fonts/conf.d
       cp -v ${fontlog.file} $out/share/doc/${name}/${fontlog.name}
       cp -v ${bold.file} $out/share/fonts/opentype/${bold.name}
       cp -v ${boldItalic.file} $out/share/fonts/opentype/${boldItalic.name}
       cp -v ${italic.file} $out/share/fonts/opentype/${italic.name}
       cp -v ${regular.file} $out/share/fonts/opentype/${regular.name}
+      cp -v ${./fontconfig.conf} $out/etc/fonts/conf.d/45-lobster-two.conf
     '';
 
     outputHashAlgo = "sha256";
     outputHashMode = "recursive";
-    outputHash = "0if9l8pzwgfnbdjg5yblcy08dwn9yj3wzz29l0fycia46xlzd4ym";
+    outputHash = "0wq8kqs6g54c244rlf6b4zmbph2gdai4pg7qlfmm1bykssn8lmmz";
 
     meta = with stdenv.lib; {
       homepage = http://www.impallari.com/lobstertwo;
