@@ -15,11 +15,13 @@ fetchurl rec {
 
   postFetch = ''
     mkdir -p $out/share/fonts/opentype
+    mkdir -p $out/etc/fonts/conf.d
     cp -v $downloadedFile $out/share/fonts/opentype/Pecita.otf
+    cp -v ${./fontconfig.conf} $out/etc/fonts/conf.d/45-pecita.conf
   '';
 
   recursiveHash = true;
-  sha256 = "0pwm20f38lcbfkdqkpa2ydpc9kvmdg0ifc4h2dmipsnwbcb5rfwm";
+  sha256 = "1kl061a6zzikskla206f8dls0jx0y9bdnamn843myrhgn7pc5i5q";
 
   meta = with stdenv.lib; {
     homepage = http://pecita.eu/police-en.php;
