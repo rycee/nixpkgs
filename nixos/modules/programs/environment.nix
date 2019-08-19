@@ -44,6 +44,9 @@ in
         LIBEXEC_PATH = [ "/lib/libexec" ];
       };
 
+    environment.profileRelativeSessionVariables =
+      { XDG_DATA_DIRS = [ "/share" ]; };
+
     environment.extraInit =
       ''
          unset ASPELL_CONF
