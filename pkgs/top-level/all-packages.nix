@@ -252,6 +252,11 @@ in
 
   fetchMavenArtifact = callPackage ../build-support/fetchmavenartifact { };
 
+  moveSystemdUserUnitsHook =
+    makeSetupHook
+      { name = "move-systemd-user-units-hook"; }
+      ../build-support/setup-hooks/move-systemd-user-units.sh;
+
   prefer-remote-fetch = import ../build-support/prefer-remote-fetch;
 
   global-platform-pro = callPackage ../development/tools/global-platform-pro/default.nix { };
