@@ -21,6 +21,7 @@ stdenv.mkDerivation rec {
     pkgconfig intltool itstool which libxml2
     vala desktop-file-utils wrapGAppsHook
     hicolor-icon-theme # for setup-hook
+    ../../../../build-support/setup-hooks/move-systemd-user-units.sh
   ];
 
   # Silly ./configure, it looks for dbus file from gnome-shell in the
