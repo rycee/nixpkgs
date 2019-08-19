@@ -20,6 +20,7 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [
     pkgconfig gettext itstool which libxml2
     vala desktop-file-utils wrapGAppsHook pcre2
+    ../../../../build-support/setup-hooks/move-systemd-user-units.sh
   ];
 
   # Silly ./configure, it looks for dbus file from gnome-shell in the
