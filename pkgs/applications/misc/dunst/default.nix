@@ -1,5 +1,5 @@
 { stdenv, lib, fetchFromGitHub, makeWrapper
-, pkgconfig, which, perl, libXrandr
+, pkgconfig, which, perl, libXrandr, moveSystemdUserUnitsHook
 , cairo, dbus, systemd, gdk-pixbuf, glib, libX11, libXScrnSaver
 , libXinerama, libnotify, pango, xorgproto, librsvg, dunstify ? false
 }:
@@ -15,7 +15,9 @@ stdenv.mkDerivation rec {
     sha256 = "0xjj1f2jr1ja5grj6wrx5jjz1sx5fpqnvkw7nqi4452j3nc4p4l2";
   };
 
-  nativeBuildInputs = [ perl pkgconfig which systemd makeWrapper ];
+  nativeBuildInputs = [
+    perl pkgconfig which systemd makeWrapper moveSystemdUserUnitsHook
+  ];
 
   buildInputs = [
     cairo dbus gdk-pixbuf glib libX11 libXScrnSaver
