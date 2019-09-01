@@ -1,6 +1,7 @@
 { stdenv, fetchurl, pkgconfig, libxml2, gnome3, dconf, nautilus
 , gtk3, gsettings-desktop-schemas, vte, intltool, which, libuuid, vala
-, desktop-file-utils, itstool, wrapGAppsHook, hicolor-icon-theme }:
+, desktop-file-utils, itstool, wrapGAppsHook, hicolor-icon-theme
+, moveSystemdUserUnitsHook }:
 
 stdenv.mkDerivation rec {
   name = "gnome-terminal-${version}";
@@ -21,6 +22,7 @@ stdenv.mkDerivation rec {
     pkgconfig intltool itstool which libxml2
     vala desktop-file-utils wrapGAppsHook
     hicolor-icon-theme # for setup-hook
+    moveSystemdUserUnitsHook
   ];
 
   # Silly ./configure, it looks for dbus file from gnome-shell in the
