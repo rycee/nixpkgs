@@ -22,6 +22,7 @@
 , libarchive
 , libsecret
 , wrapGAppsHook
+, moveSystemdUserUnitsHook
 , librsvg
 , gobject-introspection
 , yelp-tools
@@ -75,6 +76,7 @@ stdenv.mkDerivation rec {
     yelp-tools
     appstream
     wrapGAppsHook
+    moveSystemdUserUnitsHook
     python3
   ];
 
