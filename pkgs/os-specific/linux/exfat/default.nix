@@ -28,6 +28,12 @@ stdenv.mkDerivation rec {
   '';
 
   patches = [
+    # Fix compilation error on Linux 5.
+    (fetchpatch {
+      url = https://github.com/barrybingo/exfat-nofuse/commit/8b59e1f338fdd87f1d5a9db2a119a3745bb467d5.patch;
+      sha256 = "1ldra9zn45wk8xlr688csjr9z4m2zkfllaf47p6issmz875s1wca";
+    })
+
     # fix compile-errors in 4.18 and 4.20
     # ref: https://github.com/dorimanx/exfat-nofuse/pull/137
     (fetchpatch {
