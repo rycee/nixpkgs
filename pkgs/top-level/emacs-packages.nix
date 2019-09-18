@@ -60,7 +60,7 @@ let
   orgPackages = import ../applications/editors/emacs-modes/org-packages.nix { };
 
   emacsWithPackages = import ../build-support/emacs/wrapper.nix {
-    inherit lib lndir makeWrapper stdenv runCommand;
+    inherit lib lndir makeWrapper runCommand;
   };
 
   packagesFun = self: with self; {
