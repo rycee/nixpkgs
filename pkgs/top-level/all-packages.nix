@@ -1760,6 +1760,8 @@ in
 
   jellyfin = callPackage ../servers/jellyfin { };
 
+  jwt-cli = callPackage ../tools/security/jwt-cli { };
+
   kapacitor = callPackage ../servers/monitoring/kapacitor { };
 
   kisslicer = callPackage ../tools/misc/kisslicer { };
