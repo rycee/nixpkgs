@@ -3,4 +3,5 @@
 , "coffee-script"
 , "grunt-cli"
 , "node2nix"
+, "yaml-language-server"
 ]
