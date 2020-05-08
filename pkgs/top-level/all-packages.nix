@@ -19950,7 +19950,7 @@ in
 
   joe = callPackage ../applications/editors/joe { };
 
-  josm = callPackage ../applications/misc/josm { };
+  josm = callPackage ../applications/misc/josm { jre = jdk11; };
 
   jbrout = callPackage ../applications/graphics/jbrout { };
 
