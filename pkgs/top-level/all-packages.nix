@@ -20855,6 +20855,8 @@ in
 
   omxplayer = callPackage ../applications/video/omxplayer { };
 
+  openambit = qt5.callPackage ../applications/misc/openambit { };
+
   openbox = callPackage ../applications/window-managers/openbox { };
 
   openbox-menu = callPackage ../applications/misc/openbox-menu {
