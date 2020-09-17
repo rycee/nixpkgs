@@ -1,12 +1,12 @@
 { stdenv
 , cmake
 , fetchFromGitHub
-, libudev
 , libusb
 , makeWrapper
 , python3
 , qtbase
 , qttools
+, systemd
 , wrapQtAppsHook
 , zlib
 }:
@@ -25,7 +25,7 @@ stdenv.mkDerivation rec {
   outputs = [ "out" "dev" "lib" ];
 
   nativeBuildInputs = [ cmake makeWrapper qttools wrapQtAppsHook ];
-  buildInputs = [ libusb libudev qtbase python3 ];
+  buildInputs = [ libusb qtbase python3 systemd ];
 
   cmakeFlags = [ "-DCMAKE_INSTALL_UDEVRULESDIR=${placeholder "out"}/lib/udev/rules.d" ];
 
