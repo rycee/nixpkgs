@@ -1,9 +1,11 @@
 { lib, stdenv, fetchurl, jre, makeWrapper
-, mysqlSupport ? true, mysql_jdbc }:
+, mysqlSupport ? true, mysql_jdbc
+, postgresqlSupport ? true, postgresql_jdbc }:
 
 let
   extraJars = with lib;
-    optional mysqlSupport mysql_jdbc;
+    optional mysqlSupport mysql_jdbc
+    ++ optional postgresqlSupport postgresql_jdbc;
 in
 
 stdenv.mkDerivation rec {
