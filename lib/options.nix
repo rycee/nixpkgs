@@ -79,7 +79,7 @@ rec {
     visible = false;
     default = false;
     description = "Sink for option definitions.";
-    type = mkOptionType {
+    type = lib.types.mkOptionType {
       name = "sink";
       check = x: true;
       merge = loc: defs: false;
