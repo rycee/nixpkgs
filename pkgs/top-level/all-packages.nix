@@ -9339,7 +9339,9 @@ in
 
   lessc = nodePackages.less;
 
-  liquibase = callPackage ../development/tools/database/liquibase { };
+  liquibase = callPackage ../development/tools/database/liquibase {
+    jre = jdk11;
+  };
 
   lizardfs = callPackage ../tools/filesystems/lizardfs { };
 
