@@ -3953,6 +3953,12 @@
     githubId = 731722;
     name = "Ryan Scheel";
   };
+  hawkw = {
+    email = "eliza@elizas.website";
+    github = "hawkw";
+    githubId = 2796466;
+    name = "Eliza Weisman";
+  };
   hax404 = {
     email = "hax404foogit@hax404.de";
     github = "hax404";

@@ -18655,6 +18655,10 @@ in
   };
   agda = agdaPackages.agda;
 
+  ### DEVELOPMENT / LIBRARIES / BASH
+
+  bash-preexec = callPackage ../development/libraries/bash/bash-preexec { };
+
   ### DEVELOPMENT / LIBRARIES / JAVA
 
   commonsBcel = callPackage ../development/libraries/java/commons/bcel { };
