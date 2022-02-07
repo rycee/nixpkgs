@@ -8,7 +8,7 @@
 , libwebp
 , libsoup
 , libxml2
-, vala
+, vala_0_52
 , sqlite
 , webkitgtk
 , pkg-config
@@ -41,17 +41,17 @@
 
 stdenv.mkDerivation rec {
   pname = "shotwell";
-  version = "0.30.14";
+  version = "0.31.2";
 
   src = fetchurl {
     url = "mirror://gnome/sources/${pname}/${lib.versions.majorMinor version}/${pname}-${version}.tar.xz";
-    sha256 = "sha256-McLkgzkI02GcssNnWgXw2lnCuqduKLkFOF/VbADBKJU=";
+    sha256 = "0ywzr6vgcz8yy60v0jp55na9lgqi4dbh2vakfphkcml1gpah0r2l";
   };
 
   nativeBuildInputs = [
     meson
     ninja
-    vala
+    vala_0_52
     pkg-config
     itstool
     gettext
