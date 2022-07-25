@@ -560,6 +560,16 @@ let
               --replace '"mozc_emacs_helper"' '"${pkgs.ibus-engines.mozc}/lib/mozc/mozc_emacs_helper"'
           '';
         });
+
+        lsp-mode = super.lsp-mode.overrideAttrs (attrs: {
+          patches = attrs.patches or [] ++ [
+            (pkgs.fetchpatch {
+              name = "lsp-purescript-formatter.patch";
+              url = "https://github.com/emacs-lsp/lsp-mode/commit/2ca7364c31aefbe43e1b06699b1a15f78a935a95.patch";
+              sha256 = "sha256-jaR6s+33N7Acbui6AxXFAXtgNBmkDRhVDO6gg8zYtZ4=";
+            })
+          ];
+        });
       };
 
     in lib.mapAttrs (n: v: if lib.hasAttr n overrides then overrides.${n} else v) super);
