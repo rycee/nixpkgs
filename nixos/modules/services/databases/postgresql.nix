@@ -129,7 +129,7 @@ in
             options = {
               name = mkOption {
                 type = types.str;
-                description = lib.mdDoc ''
+                description = ''
                   Name of the database to ensure.
                 '';
               };
@@ -138,7 +138,7 @@ in
                 type = types.nullOr types.str;
                 default = null;
                 example = "db_user";
-                description = lib.mdDoc ''
+                description = ''
                   Name of the user that should own the new database.
                 '';
               };
@@ -147,7 +147,7 @@ in
                 type = types.nullOr types.str;
                 default = null;
                 example = "template0";
-                description = lib.mdDoc ''
+                description = ''
                   Name of the template to use for the new database.
                 '';
               };
@@ -156,7 +156,7 @@ in
                 type = types.nullOr types.str;
                 default = null;
                 example = "UTF8";
-                description = lib.mdDoc ''
+                description = ''
                   Name of the encoding to use for the new database.
                 '';
               };
@@ -165,7 +165,7 @@ in
                 type = types.nullOr types.str;
                 default = null;
                 example = "sv_SE.utf8";
-                description = lib.mdDoc ''
+                description = ''
                   Collation order to use for the new database.
                 '';
               };
@@ -174,7 +174,7 @@ in
                 type = types.nullOr types.str;
                 default = null;
                 example = "sv_SE.utf8";
-                description = lib.mdDoc ''
+                description = ''
                   Character classification to use for the new database.
                 '';
               };
@@ -182,7 +182,7 @@ in
               allowConnections = mkOption {
                 type = types.nullOr types.bool;
                 default = null;
-                description = lib.mdDoc ''
+                description = ''
                   Whether connections are allowed to the new database.
                 '';
               };
@@ -190,7 +190,7 @@ in
               connectionLimit = mkOption {
                 type = types.nullOr types.ints.unsigned;
                 default = null;
-                description = lib.mdDoc ''
+                description = ''
                   The number of connections that are allowed to the new
                   database. The value `null` indicates no limit.
                 '';
@@ -199,7 +199,7 @@ in
               isTemplate = mkOption {
                 type = types.nullOr types.bool;
                 default = null;
-                description = lib.mdDoc ''
+                description = ''
                   Whether this database is a template.
                 '';
               };
@@ -232,7 +232,7 @@ in
             passwordFile = mkOption {
               type = types.nullOr types.path;
               default = null;
-              description = lib.mdDoc ''
+              description = ''
                 Absolute path to file that contains the desired user password.
                 If `null` then no password is assigned to the user.
               '';
