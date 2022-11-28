@@ -608,7 +608,7 @@ in
             addS = n: p: optional (p != null) "${n} '${p}'";
             addL = n: p: optional (p != null) "${n} ${toString p}";
           in
-            escapeShellArg (concatStringsSep " " (
+            concatStringsSep " " (
               [ "CREATE DATABASE \"${ps.name}\"" ]
               ++ addS "OWNER" ps.owner
               ++ addS "TEMPLATE" ps.template
@@ -617,7 +617,34 @@ in
               ++ addS "LC_CTYPE" ps.lcCtype
               ++ addL "ALLOW_CONNECTIONS" ps.allowConnections
               ++ addL "CONNECTION LIMIT" ps.connectionLimit
-              ++ addL "IS_TEMPLATE" ps.isTemplate));
+              ++ addL "IS_TEMPLATE" ps.isTemplate);
+
+          # Run a single SQL command.
+          psqlCmd = cmd: "$PSQL -tA <<< ${escapeShellArg cmd}";
+
+          ensureDatabases = map (database: ''
+              ${psqlCmd "SELECT 1 FROM pg_database WHERE datname = '${database.name}'"} \
+                | grep -q 1 \
+                || ${psqlCmd (createDatabase database)}
+            '') cfg.ensureDatabases;
+
+          ensureUsers = map (user: ''
+              ${psqlCmd "SELECT 1 FROM pg_roles WHERE rolname='${user.name}'"} \
+                | grep -q 1 \
+                || ${psqlCmd "CREATE USER \"${user.name}\""}
+            '') cfg.ensureUsers;
+
+          ensureUserGrant = user: mapAttrsToList (database: permission: ''
+              ${psqlCmd "GRANT ${permission} ON ${database} TO \"${user.name}\""}
+            '') user.ensurePermissions;
+
+          ensureUserGrants = concatMap ensureUserGrant cfg.ensureUsers;
+
+          # Makes sure the specified users and databases are available. Note, we
+          # first create the users then the databases to be able to set the
+          # database owner to the newly created user. Finally we set user grants
+          # so that we can refer to both newly created users and databases.
+          ensures = concatStrings (ensureUsers ++ ensureDatabases ++ ensureUserGrants);
         in
           ''
             PSQL="psql --port=${toString cfg.port}"
@@ -633,35 +660,7 @@ in
               ''}
               rm -f "${cfg.dataDir}/.first_startup"
             fi
-          '' + optionalString (cfg.ensureDatabases != []) ''
-            ${concatMapStrings (database: ''
-              $PSQL -tAc "SELECT 1 FROM pg_database WHERE datname = '${database.name}'" | grep -q 1 || $PSQL -tAc ${createDatabase database}
-            '') cfg.ensureDatabases}
-          '' + ''
-            ${
-              concatMapStrings
-              (user:
-                let
-                  userPermissions = concatStringsSep "\n"
-                    (mapAttrsToList
-                      (database: permission: ''$PSQL -tAc 'GRANT ${permission} ON ${database} TO "${user.name}"' '')
-                      user.ensurePermissions
-                    );
-
-                  filteredClauses = filterAttrs (name: value: value != null) user.ensureClauses;
-
-                  clauseSqlStatements = attrValues (mapAttrs (n: v: if v then n else "no${n}") filteredClauses);
-
-                  userClauses = ''$PSQL -tAc 'ALTER ROLE "${user.name}" ${concatStringsSep " " clauseSqlStatements}' '';
-                in ''
-                  $PSQL -tAc "SELECT 1 FROM pg_roles WHERE rolname='${user.name}'" | grep -q 1 || $PSQL -tAc 'CREATE USER "${user.name}"'
-                  ${userPermissions}
-                  ${userClauses}
-                ''
-              )
-              cfg.ensureUsers
-            }
-          '';
+          '' + ensures;
 
         serviceConfig = mkMerge [
           { ExecReload = "${pkgs.coreutils}/bin/kill -HUP $MAINPID";
