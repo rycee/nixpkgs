@@ -1189,4 +1189,6 @@ rec {
     _file = file;
     config = lib.importTOML file;
   };
+
+  defaultOverridePriority = 100;
 }
