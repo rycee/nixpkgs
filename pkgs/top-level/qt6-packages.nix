@@ -37,4 +37,7 @@ in
     qt6Support = true;
     suffix = "qt6";
   };
+
+  qt6ct = pkgs.writeShellScriptBin "qt6ct" "";
+  qtstyleplugin-kvantum = pkgs.writeShellScriptBin "qtstyleplugin-kvantum" "";
 })))
