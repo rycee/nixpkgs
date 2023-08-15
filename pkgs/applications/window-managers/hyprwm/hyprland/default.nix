@@ -27,7 +27,7 @@
 , enableXWayland ? true
 , hidpiXWayland ? false
 , legacyRenderer ? false
-, nvidiaPatches ? false
+, enableNvidiaPatches ? false
 , withSystemd ? true
 }:
 let
@@ -88,7 +88,10 @@ stdenv.mkDerivation (finalAttrs: {
       wayland-protocols
       pango
       pciutils
-      (wlroots.override { inherit enableXWayland hidpiXWayland nvidiaPatches; })
+      (wlroots.override {
+        inherit enableXWayland hidpiXWayland;
+        nvidiaPatches = enableNvidiaPatches;
+      })
     ]
     ++ lib.optionals enableXWayland [ libxcb xcbutilwm xwayland ]
     ++ lib.optionals withSystemd [ systemd ];
