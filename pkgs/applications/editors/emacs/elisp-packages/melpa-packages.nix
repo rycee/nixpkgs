@@ -603,6 +603,15 @@ let
           packageRequires = with self; [ evil highlight ];
         });
 
+        lsp-mode = super.lsp-mode.overrideAttrs (attrs: {
+          patches = [
+            (pkgs.fetchpatch {
+              url = "https://patch-diff.githubusercontent.com/raw/emacs-lsp/lsp-mode/pull/4182.patch";
+              hash = "sha256-8R539MbM+k40jY+067awFEW8hr4TSd7fUNTaRhtxjz8=";
+            })
+          ];
+        });
+
         hamlet-mode = super.hamlet-mode.overrideAttrs (attrs: {
           patches = [
             # Fix build; maintainer email fails to parse
