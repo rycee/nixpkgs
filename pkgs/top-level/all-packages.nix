@@ -24875,6 +24875,9 @@ with pkgs;
 
   qrupdate = callPackage ../development/libraries/qrupdate { };
 
+  qadwaitadecorations = emptyDirectory;
+  qadwaitadecorations-qt6 = emptyDirectory;
+
   qgnomeplatform = libsForQt5.callPackage ../development/libraries/qgnomeplatform { };
 
   qgnomeplatform-qt6 = qt6Packages.callPackage ../development/libraries/qgnomeplatform {
