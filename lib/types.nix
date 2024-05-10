@@ -661,6 +661,8 @@ rec {
       nestedTypes.elemType = elemType;
     };
 
+    attrTag = options: submodule { inherit options; };
+
     # A submodule (like typed attribute set). See NixOS manual.
     submodule = modules: submoduleWith {
       shorthandOnlyDefinesConfig = true;
