@@ -24,6 +24,7 @@
   pkg-config,
   python311Packages,
   spaceNavSupport ? stdenv.hostPlatform.isLinux,
+  ifcSupport ? false,
   stdenv,
   swig,
   vtk,
@@ -48,6 +49,7 @@ let
   inherit (python311Packages)
     boost
     gitpython
+    ifcopenshell
     matplotlib
     pivy
     ply
@@ -128,6 +130,9 @@ freecad-utils.makeCustomizable (
       ++ lib.optionals spaceNavSupport [
         libspnav
         qtx11extras
+      ]
+      ++ lib.optionals ifcSupport [
+        ifcopenshell
       ];
 
     patches = [
