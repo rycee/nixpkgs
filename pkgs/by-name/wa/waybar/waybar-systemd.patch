@@ -1,0 +1,70 @@
+diff --git a/flake.nix b/flake.nix
+index 571c4934..4a58a6c9 100644
+--- a/flake.nix
++++ b/flake.nix
+@@ -45,6 +45,7 @@
+ 
+                   # overrides for local development
+                   nativeBuildInputs = pkgs.waybar.nativeBuildInputs ++ (with pkgs; [
++                    pkgs.systemdLibs
+                     clang-tools
+                     gdb
+                   ]);
+diff --git a/meson.build b/meson.build
+index 42f9da92..2bfecdb0 100644
+--- a/meson.build
++++ b/meson.build
+@@ -79,6 +79,7 @@ giounix = dependency('gio-unix-2.0')
+ jsoncpp = dependency('jsoncpp', version : ['>=1.9.2'], fallback : ['jsoncpp', 'jsoncpp_dep'])
+ sigcpp = dependency('sigc++-2.0')
+ libinotify = dependency('libinotify', required: false)
++libsystemd = dependency('libsystemd', required: false)
+ libepoll = dependency('epoll-shim', required: false)
+ libinput = dependency('libinput', required: get_option('libinput'))
+ libnl = dependency('libnl-3.0', required: get_option('libnl'))
+@@ -433,6 +434,10 @@ if libevdev.found() and (is_linux or libepoll.found()) and libinput.found() and
+     man_files += files('man/waybar-keyboard-state.5.scd')
+ endif
+ 
++if libsystemd.found()
++    add_project_arguments('-DHAVE_LIBSYSTEMD', language: 'cpp')
++endif
++
+ if libmpdclient.found()
+     add_project_arguments('-DHAVE_LIBMPDCLIENT', language: 'cpp')
+     src_files += files(
+@@ -524,6 +529,7 @@ executable(
+         libwireplumber,
+         libudev,
+         libinotify,
++        libsystemd,
+         libepoll,
+         libmpdclient,
+         libevdev,
+diff --git a/src/client.cpp b/src/client.cpp
+index 63a9276a..e20f1dcc 100644
+--- a/src/client.cpp
++++ b/src/client.cpp
+@@ -11,6 +11,10 @@
+ #include "util/clara.hpp"
+ #include "util/format.hpp"
+ 
++#if defined(HAVE_LIBSYSTEMD)
++#include <systemd/sd-daemon.h>
++#endif
++
+ waybar::Client *waybar::Client::inst() {
+   static auto *c = new Client();
+   return c;
+@@ -285,6 +289,11 @@ int waybar::Client::main(int argc, char *argv[]) {
+   }
+ 
+   bindInterfaces();
++
++#if defined(HAVE_LIBSYSTEMD)
++  sd_notify(0, "STATUS=Started\nREADY=1");
++#endif
++
+   gtk_app->hold();
+   gtk_app->run();
+   m_cssReloadHelper.reset();  // stop watching css file

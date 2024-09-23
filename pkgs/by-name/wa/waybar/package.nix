@@ -170,6 +170,8 @@ stdenv.mkDerivation (finalAttrs: {
     })
     ++ lib.optional experimentalPatches (lib.mesonBool "experimental" true);
 
+  patches = [ ./waybar-systemd.patch ];
+
   postPatch = ''
     substituteInPlace include/util/command.hpp \
       --replace-fail /bin/sh ${lib.getExe' bash "sh"}
