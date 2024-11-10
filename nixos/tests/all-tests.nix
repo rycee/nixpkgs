@@ -381,6 +381,7 @@ in {
   grafana = handleTest ./grafana {};
   grafana-agent = handleTest ./grafana-agent.nix {};
   graphite = handleTest ./graphite.nix {};
+  grav = handleTest ./web-apps/grav.nix {};
   graylog = handleTest ./graylog.nix {};
   grocy = handleTest ./grocy.nix {};
   grow-partition = runTest ./grow-partition.nix;
