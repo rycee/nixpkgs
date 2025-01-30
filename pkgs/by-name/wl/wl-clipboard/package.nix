@@ -10,6 +10,8 @@
   wayland-scanner,
   xdg-utils,
   makeWrapper,
+  makeBinaryWrapper,
+  svep,
 }:
 
 stdenv.mkDerivation rec {
@@ -30,6 +32,8 @@ stdenv.mkDerivation rec {
     pkg-config
     wayland-scanner
     makeWrapper
+    makeBinaryWrapper
+    svep
   ];
   buildInputs = [
     wayland
@@ -42,8 +46,8 @@ stdenv.mkDerivation rec {
 
   # Fix for https://github.com/NixOS/nixpkgs/issues/251261
   postInstall = lib.optionalString (!xdg-utils.meta.broken) ''
-    wrapProgram $out/bin/wl-copy \
-      --suffix PATH : ${lib.makeBinPath [ xdg-utils ]}
+    svep wrap $out/bin/wl-copy \
+      --suffix PATH : ${lib.makeBinPath [ xdg-utils ]}:
   '';
 
   meta = with lib; {
