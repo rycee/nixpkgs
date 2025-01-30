@@ -46471,7 +46471,7 @@
    "version": [
     0,
     4,
-    4
+    6
    ],
    "deps": [
     "closql",
@@ -46486,8 +46486,8 @@
     "transient",
     "yaml"
    ],
-   "commit": "a63685b921f25e861bf1e172e46beb771e56b924",
-   "sha256": "1nrr3l19p3hcm4jyghkl16d1pn0nqq6v6s19s54xl5yzjxfj44yq"
+   "commit": "0c9060626200902f7b0078a85566ef0eea8cc0b6",
+   "sha256": "0nrr3l19p3hcm4jyghkl16d1pn0nqq6v6s19s54xl5yzjxfj44yq"
   }
  },
  {
