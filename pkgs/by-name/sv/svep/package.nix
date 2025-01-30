@@ -21,7 +21,7 @@ rustPlatform.buildRustPackage {
 
   cargoHash = "sha256-YtgYop/z1QPhc0suXMGZE7CcOiiQy6SDBe1r3VUykXg=";
 
-  outputs = [ "out" "sexec" ];
+  outputs = [ "sexec" "out" ];
 
   preConfigure = ''
     export SVEP_SEXEC_PATH="$sexec/bin/sexec"
