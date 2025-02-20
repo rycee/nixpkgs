@@ -4,6 +4,7 @@
   fetchFromGitHub,
   makeWrapper,
   git,
+  svep,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -17,14 +18,14 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-x7Z4w4UzshXYc25ag6HopRrKbP+/ELkFPdsUBaUE1vY=";
   };
 
-  nativeBuildInputs = [ makeWrapper ];
+  nativeBuildInputs = [ makeWrapper svep ];
 
   dontBuild = true;
 
   installPhase = ''
     install -Dm755 -t $out/bin git-standup
 
-    wrapProgram $out/bin/git-standup \
+    svep wrap $out/bin/git-standup \
       --prefix PATH : "${lib.makeBinPath [ git ]}"
   '';
 
