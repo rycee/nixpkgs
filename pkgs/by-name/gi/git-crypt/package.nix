@@ -8,6 +8,7 @@
   stdenv,
   libxslt,
   docbook_xsl,
+  svep,
 }:
 
 stdenv.mkDerivation rec {
@@ -26,6 +27,7 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [
     libxslt
     makeWrapper
+    svep
   ];
 
   buildInputs = [ openssl ];
@@ -47,7 +49,7 @@ stdenv.mkDerivation rec {
   ];
 
   postFixup = ''
-    wrapProgram $out/bin/git-crypt \
+    svep wrap $out/bin/git-crypt \
       --suffix PATH : ${
         lib.makeBinPath [
           git
