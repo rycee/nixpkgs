@@ -17,8 +17,8 @@
   openssh,
   procps,
   qrencode,
-  makeWrapper,
   pass,
+  svep,
 
   xclip ? null,
   xdotool ? null,
@@ -53,7 +53,7 @@ let
     buildEnv {
       name = "pass-env";
       paths = selected;
-      nativeBuildInputs = [ makeWrapper ];
+      nativeBuildInputs = [ svep ];
       buildInputs = lib.concatMap (x: x.buildInputs) selected;
 
       postBuild = ''
@@ -69,7 +69,7 @@ let
           fi
         done
 
-        wrapProgram $out/bin/pass \
+        svep wrap $out/bin/pass \
           --set SYSTEM_EXTENSION_DIR "$out/lib/password-store/extensions"
       '';
       meta.mainProgram = "pass";
@@ -90,7 +90,7 @@ stdenv.mkDerivation rec {
     ./extension-dir.patch
   ] ++ lib.optional stdenv.hostPlatform.isDarwin ./no-darwin-getopt.patch;
 
-  nativeBuildInputs = [ makeWrapper ];
+  nativeBuildInputs = [ svep ];
 
   installFlags = [
     "PREFIX=$(out)"
@@ -136,13 +136,13 @@ stdenv.mkDerivation rec {
         --replace 'PROGRAM="''${0##*/}"' "PROGRAM=pass"
 
       # Ensure all dependencies are in PATH
-      wrapProgram $out/bin/pass \
+      svep wrap $out/bin/pass \
         --prefix PATH : "${wrapperPath}"
     ''
     + lib.optionalString dmenuSupport ''
       # We just wrap passmenu with the same PATH as pass. It doesn't
       # need all the tools in there but it doesn't hurt either.
-      wrapProgram $out/bin/passmenu \
+      svep wrap $out/bin/passmenu \
         --prefix PATH : "$out/bin:${wrapperPath}"
     '';
 
