@@ -3,7 +3,7 @@
   fetchFromGitHub,
   fzy,
   lib,
-  makeBinaryWrapper,
+  svep,
   nix-index-unwrapped,
   rustPlatform,
   testers,
@@ -22,10 +22,10 @@ rustPlatform.buildRustPackage rec {
 
   cargoHash = "sha256-poQDzC5DLkwLMwt5ieZCSyrQIKkuYq6hu6cj7lcDb4c=";
 
-  nativeBuildInputs = [ makeBinaryWrapper ];
+  nativeBuildInputs = [ svep ];
 
   postInstall = ''
-    wrapProgram $out/bin/comma \
+    svep wrap $out/bin/comma \
       --prefix PATH : ${
         lib.makeBinPath [
           fzy
