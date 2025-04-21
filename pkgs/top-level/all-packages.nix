@@ -2174,6 +2174,7 @@ with pkgs;
   };
 
   pass = callPackage ../tools/security/pass { };
+  pass-rycee = pkgs.pass.withExtensions (exts: [ exts.pass-otp ]);
 
   pass-nodmenu = callPackage ../tools/security/pass {
     dmenuSupport = false;
