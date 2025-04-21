@@ -2,7 +2,7 @@
   stdenv,
   lib,
   fetchFromGitHub,
-  makeWrapper,
+  svep,
   pkg-config,
   which,
   perl,
@@ -44,7 +44,7 @@ stdenv.mkDerivation (finalAttrs: {
     pkg-config
     which
     systemd
-    makeWrapper
+    svep
   ];
 
   buildInputs =
@@ -86,10 +86,10 @@ stdenv.mkDerivation (finalAttrs: {
     ++ lib.optional (!withWayland) "WAYLAND=0";
 
   postInstall = ''
-    wrapProgram $out/bin/dunst \
+    svep wrap $out/bin/dunst \
       --set GDK_PIXBUF_MODULE_FILE "$GDK_PIXBUF_MODULE_FILE"
 
-    wrapProgram $out/bin/dunstctl \
+    svep wrap $out/bin/dunstctl \
       --prefix PATH : "${
         lib.makeBinPath [
           coreutils
