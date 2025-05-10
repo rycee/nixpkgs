@@ -212,13 +212,14 @@ rec {
           assert atomsCoercedToLists != null -> (listsAsDuplicateKeys || listToValue != null);
           let
             atomsCoercedToLists' = if atomsCoercedToLists == null then false else atomsCoercedToLists;
-          in
-          {
-
-            type = lib.types.attrsOf (iniSection {
+            atom = {
               inherit listsAsDuplicateKeys listToValue;
               atomsCoercedToLists = atomsCoercedToLists';
-            });
+            };
+          in
+          {
+            type = lib.types.attrsOf (iniSection atom);
+            lib.types.atom = iniAtom atom;
 
             generate =
               name: value:
