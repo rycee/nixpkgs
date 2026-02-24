@@ -38,6 +38,8 @@ rustPlatform.buildRustPackage (finalAttrs: {
     rust-jemalloc-sys
   ];
 
+  patches = [ ./wallpaper-link.patch ];
+
   buildFeatures = [
     "avif"
   ];
