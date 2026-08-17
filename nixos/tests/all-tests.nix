@@ -710,6 +710,7 @@ in
   grafana-to-ntfy = runTest ./grafana-to-ntfy.nix;
   graphite = runTest ./graphite.nix;
   grav = runTest ./web-apps/grav.nix;
+  grav_2 = runTest ./web-apps/grav_2.nix;
   graylog = runTest ./graylog.nix;
   greetd-no-shadow = runTest ./greetd-no-shadow.nix;
   grocy = runTest ./grocy.nix;
