@@ -39,5 +39,21 @@ stdenvNoCC.mkDerivation {
     homepage = "https://getgrav.com";
     maintainers = with lib.maintainers; [ rycee ];
     license = lib.licenses.mit;
+    knownVulnerabilities = [
+      ''
+        Grav 1 contains a number of known vulnerabilities, please upgrade to Grav 2.
+        This can be done by following the migration instructions[1].
+
+        Note, unfortunately using the automatic migration plugin does not work
+        since it cannot write to the Nix store.
+
+        If you use the NixOS module, then add
+
+          service.grav.package = pkgs.grav_2;
+
+        to your configuration to use Grav 2 after you have migrated your site.
+
+        [1]: https://learn.getgrav.org/20/migration/manual-migration.''
+    ];
   };
 }
